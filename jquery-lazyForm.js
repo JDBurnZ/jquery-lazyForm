@@ -3,7 +3,7 @@
 		var $form = $(selector);
 
 		// Grab all inputs, minus checkboxes or radio buttons which aren't checked.
-		var $inputs = $form.find(':input:not([type="radio"]:not(:checked)):not([type="checkbox"]:not(:checked))');
+		var $inputs = $form.find(':input[name]:not([type="radio"]:not(:checked)):not([type="checkbox"]:not(:checked))');
 
 		// Segment `select` drop-downs w/ the `multiple` attribute for special processing.
 		var $multi_selects = $inputs.filter('select[multiple]');
@@ -20,23 +20,18 @@
 		$.each($multi_selects, function(index, input) {
 			var $input = $(input);
 			var input_name = $input.attr('name');
-			if(input_name === undefined) {
-				// Skip inputs with no name.
-				return;
+			var input_values = $input.val();
+			if(input_values !== null) { // `null` is encountered when no options from the drop-down have been selected.
+				$.each($input.val(), function(index, value) {
+					values[input_name + '[' + index + ']'] = value;
+				});
 			}
-			$.each($input.val(), function(index, value) {
-				values[input_name + '[' + index + ']'] = value;
-			});
 		});
 
 		// Iterate over `checkbox` input elements.
 		$.each($checkboxes, function(index, input) {
 			var $input = $(input);
 			var input_name = $input.attr('name');
-			if(input_name === undefined) {
-				// Skip inputs with no name.
-				return;
-			}
 			// Grab all of the checkboxes with the name of the checkbox being
 			// iterated over, and remove all of those checkboxes from the
 			// $checkboxes` list because this single iteration takes care of all
@@ -52,10 +47,6 @@
 		$.each($inputs, function(index, input) {
 			var $input = $(input);
 			var input_name = $input.attr('name');
-			if(input_name === undefined) {
-				// Skip inputs with no name.
-				return;
-			}
 			values[input_name] = $input.val();
 		});
 
