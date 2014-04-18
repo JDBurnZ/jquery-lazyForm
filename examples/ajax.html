@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Include jQuery -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+		<!-- Include jquery-lazyForm -->
+		<script type="text/javascript" src="https://raw.githubusercontent.com/JDBurnZ/jquery-lazyForm/master/jquery-lazyForm.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				var $myform = $('form');
+				$myform.on('submit', function(event) {
+					var $form = $(this);
+					// Perform the magic.
+					var data = $form.lazyForm();
+
+					var $values_container = $('#input-values');
+					$.each(data, function(name, value) {
+						$('<div>').html(name + ': ' + value).appendTo($values_container);
+					});
+
+					$.ajax({
+						'url': '/some/page/to/submit/to',
+						'type': 'POST',
+						'data': data // <-- This data came from `lazyForm`!
+					});
+
+					return false; // This prevents the form from submitting.
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div style="float:left;">
+			<form>
+				<div>
+					<div><b>Text Input</b></div>
+					<div><input type="text" name="text-input" value="text-input-value" /></div>
+				</div>
+				<div>
+					<div><b>Password Input</b></div>
+					<div><input type="password" name="password-input" value="password-input-value" /></div>
+				</div>
+				<div>
+					<div><b>Hidden Input (surprise, you can't see it!)</b></div>
+					<div><input type="hidden" name="hidden-input" value="hidden-input-value" /></div>
+				</div>
+				<div>
+					<div><b>Radio Buttons</b></div>
+					<div><label><input type="radio" name="radio-input" value="radio-1-value" /> Radio Button 1</label></div>
+					<div><label><input type="radio" name="radio-input" value="radio-2-value" checked="checked" /> Radio Button 2</label></div>
+					<div><label><input type="radio" name="radio-input" value="radio-3-value" /> Radio Button 3</label></div>
+				</div>
+				<div>
+					<div><b>Checkboxes</b></div>
+					<div><label><input type="checkbox" name="checkbox-input" value="checkbox-1-value" checked="checked" /> Checkbox 1</label></div>
+					<div><label><input type="checkbox" name="checkbox-input" value="checkbox-2-value" checked="checked" /> Checkbox 2</label></div>
+					<div><label><input type="checkbox" name="checkbox-input" value="checkbox-3-value" /> Checkbox 3</label></div>
+				</div>
+				<div>
+					<div><b>Select (single)</b></div>
+					<div>
+						<select name="select-single">
+							<option value="First Option" selected="selected">First Option</option>
+							<option value="Second Option">Second Option</option>
+							<option value="Third Option">Third Option</option>
+						</select>
+					</div>
+				</div>
+				<div>
+					<div><b>Select (multiple)</b></div>
+					<div>
+						<select name="select-multiple" multiple="multiple">
+							<option value="First Option" selected="selected">First Option</option>
+							<option value="Second Option">Second Option</option>
+							<option value="Third Option" selected="selected">Third Option</option>
+						</select>
+					</div>
+				</div>
+				<div>
+					<div><b>Button Button</b></div>
+					<div><button type="button" name="button-button" value="Button Button Value">"button" Button</button></div>
+				</div>
+				<div>
+					<div><b>Submit Button</b></div>
+					<div><button type="submit" name="submit-button" value="Submit Button Value">"submit" Button</button></div>
+				</div>
+				<div>
+					<div><b>Reset Button</b></div>
+					<div><button type="reset" name="reset-button" value="Reset Button Value">"reset" Button</button></div>
+				</div>
+				<div>
+					<div><b>Button Input</b></div>
+					<div><input type="button" name="button-input" value="Button Input Value" /></div>
+				</div>
+				<div>
+					<div><b>Submit Input</b></div>
+					<div><input type="submit" name="submit-input" value="Submit Input Value" /></div>
+				</div>
+				<div>
+					<div><b>Reset Input</b></div>
+					<div><input type="reset" name="reset-input" value="Reset Input Value" /></div>
+				</div>
+				<div>
+					<div><b>Textarea</b></div>
+					<div><textarea name="textarea">Textarea Value</textarea></div>
+				</div>
+				
+				<br /><br />
+				<div><button type="submit" style="font-size:2em;">Submit</button></div>
+			</form>
+		</div>
+		<div id="input-values" class="float:left;padding-left:40px;"></div>
+	</body>
+</html>
