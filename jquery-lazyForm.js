@@ -16,7 +16,7 @@
 		// Define the object which will be returned by this function.
 		var values = {};
 
-		// Iterate over `select` drop-downs w/ the `multiple` attribute elements.
+		// Iterate over `select` drop-downs w/ the `multiple` attribute.
 		$.each($multi_selects, function(index, input) {
 			var $input = $(input);
 			var input_name = $input.attr('name');
@@ -47,7 +47,23 @@
 		$.each($inputs, function(index, input) {
 			var $input = $(input);
 			var input_name = $input.attr('name');
-			values[input_name] = $input.val();
+			var value = $input.val();
+			// Check if the input_name we're now encountering has been encountered
+			// from separate input. If it has, then we need to store an array of values rather
+			// than a single value.
+			if(values[input_name] === undefined) {
+				// Newly encountered input name, add it to the object.
+				values[input_name] = value;
+			} else {
+				// Determine if the value has already been transformed to an array.
+				if(Object.prototype.toString.call(values[input_name]) !== '[object Array]') {
+					// Not an array, transform to array.
+					values[input_name] = [
+						values[input_name]
+					];
+				}
+				values[input_name].push(value);
+			}
 		});
 
 		return values;
