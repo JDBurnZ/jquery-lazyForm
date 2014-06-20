@@ -5,10 +5,11 @@ A very simply jQuery plugin for retrieving all input names and values from a for
 
 Features
 --------
-* Incredibly fast andeasy to use.
-* Supports all form inputs, using the `:input` selector.
+* Incredibly fast and easy to use.
+* Supports all form input types, using the `:input` selector.
 * Supports `select` elements with `multiple` options selected.
 * Ignores unchecked `radio` and `checkbox` inputs.
+* Fully supports inputs utilizing the `name="someval[]"` convention.
 
 Examples
 --------
