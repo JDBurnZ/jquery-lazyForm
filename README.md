@@ -1,20 +1,17 @@
 jquery-lazyForm
 ===============
-
-A very simply jQuery plugin for retrieving all input names and values from a form.
+ 
+The easiest jQuery form data extraction plug-in you'll ever find.
 
 Features
---------
-* Incredibly fast and easy to use.
-* Supports all form input types, using the `:input` selector.
-* Supports `select` elements with `multiple` options selected.
-* Ignores unchecked `radio` and `checkbox` inputs.
-* Fully supports inputs utilizing the `name="someval[]"` convention.
+----------------------------------------
+* Lighning fast, utilizing jQuery's own `:input` selector.
+* Supports every HTML5 form element including `<input>`, `<select>`, `<textarea>`, and `<button>`.
+* Un-checked `radio` and `checkbox` inputs are automatically omitted.
+* Supports automatic conversion of `name="fieldname[]"` to arrays
 
-Examples
---------
-
-More examples are available within the `examples` directory.
+How To Use
+----------
 
 <pre>
 // Grab the form we want to pull input values from.
@@ -27,4 +24,4 @@ var data = $.lazyForm($myForm);
 var data = $myForm.lazyForm();
 </pre>
 
-That's it! You can then take the data returned and directly pass it to an `$.ajax()` request under the `data` key.
+That's it, you now have all the form data you need!
