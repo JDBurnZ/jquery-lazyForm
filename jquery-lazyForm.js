@@ -1,3 +1,25 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2014 Joshua D. Burns
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 (function($) {
 	$.lazyForm = function(selector) {
 		var $form = $(selector);
@@ -29,18 +51,24 @@
 		});
 
 		// Iterate over `checkbox` input elements.
-		$.each($checkboxes, function(index, input) {
-			var $input = $(input);
-			var input_name = $input.attr('name');
-			// Grab all of the checkboxes with the name of the checkbox being
-			// iterated over, and remove all of those checkboxes from the
-			// $checkboxes` list because this single iteration takes care of all
-			// checkboxes with the same name.
-			var $name_checkboxes = $checkboxes.filter('[name="' + input_name + '"]:checkbox');
-			$checkboxes = $inputs.not($name_checkboxes);
-			$.each($name_checkboxes, function(index, checkbox) {
-				values[input_name + '[' + index + ']'] = $(checkbox).val();
-			});
+		$.each($checkboxes, function(index, checkbox) {
+			var $checkbox = $(checkbox);
+			var input_name = $checkbox.attr('name');
+
+			// Check if input's name ends in "[]". If it does, strip it.
+			if(input_name.indexOf('[]', this.length - '[]'.length) !== -1) {
+				input_name = input_name.slice(0, -2);
+			}
+
+			// Check if an array has been created for the checkbox values.
+			if(values[input_name] === undefined) {
+				values[input_name] = [];
+			}
+
+			var checkbox_value = $checkbox.val();
+
+			// Push the checkbox's value onto the array.
+			values[input_name].push(checkbox_value);
 		});
 
 		// Iterate over general form elements.
